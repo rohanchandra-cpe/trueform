@@ -14,9 +14,9 @@ how their form is. Here is an example of the color tracking for a user (Alip Ars
 
 Here is Alip with good form.
 
-![alt text](alipgoodform.png)
+![alt text](alipgoodform.PNG)
 
 And here he is with bad form. Notice how his back has now turned red. 
 
-![alt text](alipbadform.png)
+![alt text](alipbadform.PNG)
 
