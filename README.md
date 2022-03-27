@@ -6,3 +6,5 @@ By leveraging Tensorflow's MoveNet model and OpenCV, we are able to draw a skele
 the angles between different edges in the skeleton. We can then measure these angles and check whether they are in a pre-determined range or not. 
 
 For example, in order to do a proper push-up, the user's back needs to be straight. 
+
+![alt text](https://github.com/[rohanchandra-cpe]/[trueform]/blob/[main]/skeletonhoohacks?raw=true)
