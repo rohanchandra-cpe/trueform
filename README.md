@@ -7,4 +7,4 @@ the angles between different edges in the skeleton. We can then measure these an
 
 For example, in order to do a proper push-up, the user's back needs to be straight. 
 
-![alt text](https://github.com/[rohanchandra-cpe]/[trueform]/blob/main/skeletonhoohacks?raw=true)
+![alt text](skeletonhoohacks.png)
