@@ -16,7 +16,7 @@ Here is Alip with good form.
 
 ![alt text](alipgoodform.PNG)
 
-And here he is with bad form. Notice how his back has now turned red. 
+And here he is with bad form. Notice how his back has now turned yellow, indiciating that his form is beginning to slip. 
 
 ![alt text](alipbadform.PNG)
 
