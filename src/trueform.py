@@ -4,7 +4,24 @@ from matplotlib import pyplot as plt
 import cv2
 import math
 
-KEYPOINT_EDGES = [(0, 1), (0, 2), (1, 3), (2, 4), (5, 7), (7, 9), (6, 8), (8, 10), (5, 6), (5, 11), (6, 12), (11, 12), (11, 13), (13, 15), (12, 14), (14, 16)]
+KEYPOINT_EDGES = [
+    (0, 1),
+    (0, 2),
+    (1, 3),
+    (2, 4),
+    (5, 7),
+    (7, 9),
+    (6, 8),
+    (8, 10),
+    (5, 6),
+    (5, 11),
+    (6, 12),
+    (11, 12),
+    (11, 13),
+    (13, 15),
+    (12, 14),
+    (14, 16),
+]
 
 PARTS = {
     0: "nose",
@@ -23,7 +40,7 @@ PARTS = {
     13: "left_knee",
     14: "right_knee",
     15: "left_ankle",
-    16: "right_ankle"
+    16: "right_ankle",
 }
 
 EXERCISES = {
@@ -33,17 +50,19 @@ EXERCISES = {
     "pushup": [(6, 12, 14, 180), (12, 14, 16, 180), (6, 8, 10, 180)]
 }
 
+
 def angle(p1, p2, p3):
     a = math.dist(p1, p2)
     b = math.dist(p2, p3)
     c = math.dist(p1, p3)
 
     val = 2 * a * b
-    if(val <= 0):
+    if val <= 0:
         val = 1
 
     c_angle = math.acos((a ** 2 + b ** 2 - c ** 2) / val)
     return math.degrees(c_angle)
+
 
 def draw_lines(exercise, parts):
     angles = {}
@@ -55,7 +74,11 @@ def draw_lines(exercise, parts):
     red = (0, 0, 255)
 
     for body_group in exercise:
-        angles[counter] = angle(parts[exercise[counter][0]], parts[exercise[counter][1]], parts[exercise[counter][2]])
+        angles[counter] = angle(
+            parts[exercise[counter][0]],
+            parts[exercise[counter][1]],
+            parts[exercise[counter][2]],
+        )
         part_coordinates = []
         for point in body_group[0:3]:
             edge = (parts[point][0], parts[point][1])
@@ -74,16 +97,19 @@ def draw_lines(exercise, parts):
             cv2.line(image_np, part_coordinates[1], part_coordinates[2], red, 2)
         counter += 1
 
-        if(counter > len(exercise)):
+        if counter > len(exercise):
             counter = 0
 
         cv2.imshow("pose estimation", image_np)
-    
+
+
 model_path = "movenet_lightning_fp16.tflite"
 interpreter = tf.lite.Interpreter(model_path)
 interpreter.allocate_tensors()
 
-cap = cv2.VideoCapture(0) # We've included a sample video and image, which can be used as parameters
+cap = cv2.VideoCapture(
+    0
+)  # We've included a sample video and image, which can be used as parameters
 while cap.isOpened():
     ret, frame = cap.read()
     img = frame.copy()
@@ -94,9 +120,9 @@ while cap.isOpened():
     input_image = tf.cast(input_image, dtype=tf.uint8)
     input_details = interpreter.get_input_details()
     output_details = interpreter.get_output_details()
-    interpreter.set_tensor(input_details[0]['index'], input_image.numpy())
+    interpreter.set_tensor(input_details[0]["index"], input_image.numpy())
     interpreter.invoke()
-    keypoints = interpreter.get_tensor(output_details[0]['index'])
+    keypoints = interpreter.get_tensor(output_details[0]["index"])
 
     width = 640
     height = 640
@@ -117,11 +143,11 @@ while cap.isOpened():
 
         body_part += 1
         parts[body_part] = (x, y)
-    
+
     # Generalize from here!
     draw_lines(EXERCISES["pushup"], parts)
-    if cv2.waitKey(10) & 0xFF==ord('q'):
-            break
-        
+    if cv2.waitKey(10) & 0xFF == ord("q"):
+        break
+
 cap.release()
 cv2.destroyAllWindows()
